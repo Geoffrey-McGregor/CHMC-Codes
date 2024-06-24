@@ -3,12 +3,10 @@ format compact
 format long
 
 %Selecting p (Choose 2,4 or 6) 
-PGauss=6;
-
+PGauss=4;
 
 %Number of dimensions
 d=1024;
-
 
 %Number of iterations
 N=5000;
@@ -25,7 +23,6 @@ maxFPI = 2;
 
 %Printing options
 updatePercent = 10; % percent to print progress (set to zero for no updates)
-
 
 %Integration Parameters (If PGauss=6, need to reduce dt for stability)
 dt=.1;
