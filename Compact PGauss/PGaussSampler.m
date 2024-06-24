@@ -7,8 +7,8 @@ PGauss=6;
 
 
 %Number of dimensions
-d=2560*2;%2560*2;
-d=100;
+d=1024;
+
 
 %Number of iterations
 N=5000;
