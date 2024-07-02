@@ -5,9 +5,11 @@ Welcome to our CHMC Matlab repository
 You will find two folders containing the codes used to run the examples found in the CHMC paper
 
 **Compact Chi** contains codes for sampling the p-Generalized Chi distribution 
+
 **Compact PGauss** contains codes for sampling the p-Generalized Gaussian distribution.
 
-Compact Chi: Here you find four executable files associated with Figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and Compact Violin.
+# Compact Chi: 
+Here you find four executable files associated with Figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and Compact Violin.
 
 Running CompactViolin will reproduce Figure 1 from the paper
 Running CompactHeatD will reproduce the top two panels of Figure 2 from the paper
@@ -25,7 +27,8 @@ dt is the time step
 The output of ChiSampler is two matrices containing two Chains X N matrices, the first being the CHMC samples and the second being the HMC Leapfrog samples
 
 
-PCompact PGauss: Here you find one executable file, PGaussSampler.
+# PCompact PGauss:
+Here you find one executable file, PGaussSampler.
 
 Running PGaussSampler with a specified dimension d on line 9 will reproduce a convergence plot as seen in Figure 4 of the paper.
 
