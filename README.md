@@ -20,13 +20,17 @@ Running _CompactHeatP_ will reproduce the bottom two panels of Figure 2 from the
 Running _CompactConverence_ will reproduce Figure 3 from the paper
 
 
-If you wish to sample the p-Generalized Chi distribution with your own set of parameters, call ChiSampler(d,p,N,Chains,T,dt), where
+If you wish to sample the p-Generalized Chi distribution with your own set of parameters, call _ChiSampler(d,p,N,Chains,T,dt)_, where
 
-d and p are parameters associated with the distribution
-N is the number of iterations
-Chains is the number of chains
-T is the integration time
-dt is the time step
+**d** and **p** are parameters associated with the distribution
+
+**N** is the number of iterations
+
+**Chains** is the number of chains
+
+**T** is the integration time
+
+**dt** is the time step
 
 The output of ChiSampler is two matrices containing two Chains X N matrices, the first being the CHMC samples and the second being the HMC Leapfrog samples
 
