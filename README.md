@@ -24,7 +24,7 @@ If you wish to sample the p-Generalized Chi distribution with your own set of pa
 
 **d** and **p** are parameters associated with the distribution
 
-**N** is the number of iterations
+**N** is the number of samples in each chain
 
 **Chains** is the number of chains
 
@@ -32,7 +32,7 @@ If you wish to sample the p-Generalized Chi distribution with your own set of pa
 
 **dt** is the time step
 
-The output of ChiSampler is two matrices containing two Chains X N matrices, the first being the CHMC samples and the second being the HMC Leapfrog samples
+The output of ChiSampler is two matrices containing two Chains X N matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples
 
 
 # PCompact PGauss:
