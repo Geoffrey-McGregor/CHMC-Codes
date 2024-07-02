@@ -11,10 +11,14 @@ You will find two folders containing the codes used to run the examples found in
 # Compact Chi: 
 Here you find four executable files associated with Figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and Compact Violin.
 
-Running CompactViolin will reproduce Figure 1 from the paper
-Running CompactHeatD will reproduce the top two panels of Figure 2 from the paper
-Running CompactHeatP will reproduce the bottom two panels of Figure 2 from the paper
-Running CompactConverence will reproduce Figure 3 from the paper
+Running _CompactViolin_ will reproduce Figure 1 from the paper
+
+Running _CompactHeatD_ will reproduce the top two panels of Figure 2 from the paper
+
+Running _CompactHeatP_ will reproduce the bottom two panels of Figure 2 from the paper
+
+Running _CompactConverence_ will reproduce Figure 3 from the paper
+
 
 If you wish to sample the p-Generalized Chi distribution with your own set of parameters, call ChiSampler(d,p,N,Chains,T,dt), where
 
@@ -30,6 +34,6 @@ The output of ChiSampler is two matrices containing two Chains X N matrices, the
 # PCompact PGauss:
 Here you find one executable file, PGaussSampler.
 
-Running PGaussSampler with a specified dimension d on line 9 will reproduce a convergence plot as seen in Figure 4 of the paper.
+Running _PGaussSampler_ with a specified dimension d on line 9 will reproduce a convergence plot as seen in Figure 4 of the paper.
 
 You may choose the value of PGauss on line 5 to be 2,4 or 6. If you wish to choose a different value for p, you will need to reference our paper's supplemental for how to adjust the Newton solve.
