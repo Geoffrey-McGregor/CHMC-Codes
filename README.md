@@ -9,7 +9,7 @@ You will find two folders containing the codes used to run the examples found in
 **Compact PGauss** contains codes for sampling the p-Generalized Gaussian distribution.
 
 # Compact Chi: 
-Here you find four executable files associated with Figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and Compact Violin.
+Here you find four executable files associated with figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and Compact Violin.
 
 Running _CompactViolin_ will reproduce Figure 1 from the paper
 
