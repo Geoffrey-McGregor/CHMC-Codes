@@ -40,6 +40,6 @@ The output of ChiSampler is two matrices containing two Chains by N matrices, th
 # PCompact PGauss:
 Here you find one executable file, PGaussSampler.
 
-Running _PGaussSampler_ with a specified dimension d on line 9 will reproduce a convergence plot as seen in **Figure 4** of the paper.
+Running _PGaussSampler_ with a specified dimension d (1024, 2560 ,5120, 10240, 20480 or 40960) on line 9 will reproduce a convergence plot as seen in **Figure 4** of the paper.
 
 You may choose the value of PGauss on line 5 to be 2,4 or 6. If you wish to choose a different value for p, you will need to reference our paper's supplemental for how to adjust the Newton solve.
