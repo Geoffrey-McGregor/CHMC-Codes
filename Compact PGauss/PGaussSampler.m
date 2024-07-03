@@ -5,7 +5,7 @@ format long
 %Selecting p (Choose 2,4 or 6) 
 PGauss=4;
 
-%Number of dimensions
+%Number of dimensions (Figure 4 includes 1024, 2560, 5120, 10240, 20480 or 40960)
 d=1024;
 
 %Number of iterations
