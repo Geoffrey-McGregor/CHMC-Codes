@@ -1,7 +1,7 @@
 format short
 format compact
 
-%Fixed parameters for Figure 1 of paper
+%Fixed parameters for Figure 1
 Chains=20;
 N=10000;
 T=5;
