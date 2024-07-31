@@ -23,9 +23,8 @@ You will find two directories containing the codes used to run the examples foun
 **Additional Executible file**
 
 1. `ChiSampler(d,p,N,Chains,T,dt) samples the p-Generalized Chi distribution with your choice of parameters`  
-See preamble in .m file for parameter descriptions
-
-The output of ChiSampler is two matrices containing two Chains by N matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples
+ - See preamble in .m file for parameter descriptions
+ - The output of ChiSampler is two matrices containing two Chains by N matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples
 
 
 # PCompact PGauss:
