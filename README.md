@@ -17,7 +17,7 @@ You will find two directories containing the codes used to run the examples foun
 
 3. `CompactHeatP.m will produces the bottom two panels of Figure 2`
 
-4. `CompactConverence.m produces Figure 3`
+4. `CompactConvergence.m produces Figure 3`
 
 
 **Additional executible file**
@@ -32,7 +32,7 @@ You will find two directories containing the codes used to run the examples foun
 
 2. `HeatmapGen.m is called by CompactHeatD.m and CompactHeatP.m to generate the heatmap figures`
 
-# PCompact PGauss:
+# Compact PGauss:
 **Executible files**
 
 1. `PGaussSampler.m produces one of the convergence plots from Figure 4.`
