@@ -20,17 +20,10 @@ You will find two directories containing the codes used to run the examples foun
 4. `CompactConverence_ produces Figure 3`
 
 
-If you wish to sample the p-Generalized Chi distribution with your own set of parameters, call _ChiSampler(d,p,N,Chains,T,dt)_, where
+**Additional Executible file**
 
-**d** and **p** are parameters associated with the distribution
-
-**N** is the number of samples in each chain
-
-**Chains** is the number of chains
-
-**T** is the integration time
-
-**dt** is the time step
+1. `ChiSampler(d,p,N,Chains,T,dt) samples the p-Generalized Chi distribution with your choice of parameters`  
+See preamble in .m file for parameter descriptions
 
 The output of ChiSampler is two matrices containing two Chains by N matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples
 
