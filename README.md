@@ -4,16 +4,14 @@ Welcome to our CHMC Matlab repository
 
 You will find two directories containing the codes used to run the examples found in our CHMC paper
 
-1. `**Compact Chi** contains codes for sampling the p-Generalized Chi distribution.` 
+1. `Compact Chi contains codes for sampling the p-Generalized Chi distribution.` 
 
-2. `**Compact PGauss** contains codes for sampling the p-Generalized Gaussian distribution.`
+2. `Compact PGauss contains codes for sampling the p-Generalized Gaussian distribution.`
 
-# Compact Chi: 
-Here you find four executable files associated with figures from the paper: CompactConvergence, CompactHeatmapD, CompactHeatmapP and CompactViolin.
+# Compact Chi 
+** Executible files**
 
-Each file has its parameters set to reproduce the corresponding figure from the paper, therefore you do not need to change anything, just simply run the code.
-
-Running _CompactViolin_ will reproduce **Figure 1** from the paper
+1.`_CompactViolin_ produces Figure 1`
 
 Running _CompactHeatD_ will reproduce the top two panels of **Figure 2** from the paper
 
