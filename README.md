@@ -20,20 +20,20 @@ You will find two directories containing the codes used to run the examples foun
 4. `CompactConverence_ produces Figure 3`
 
 
-**Additional Executible file**
+**Additional executible file**
 
 1. `ChiSampler(d,p,N,Chains,T,dt) samples the p-Generalized Chi distribution with your choice of parameters`  
  - See preamble in .m file for parameter descriptions
- - The output of ChiSampler is two matrices containing two Chains by N matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples
+ - The output of ChiSampler is two matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples. The number of rows corresponds to the number of chains and the number of columns corresponds to the number of samples used.
 
 
 # PCompact PGauss:
-Here you find one executable file, PGaussSampler.
+**Executible files**
 
-Running _PGaussSampler_ with a specified dimension d (1024, 2560 ,5120, 10240, 20480 or 40960) on line 9 will reproduce a convergence plot as seen in **Figure 4** of the paper.
-
-You may choose the value of PGauss on line 5 to be 2,4 or 6. If you wish to choose a different value for p, you will need to reference our paper's supplemental for how to adjust the Newton solve.
+1. `PGaussSampler produces one of the convergence plots from Figure 4.`
+- Choosing the dimension **d** on line 9 from 1024, 2560 ,5120, 10240, 20480 or 40960 will reproduce the corresponding panels from Figure 4.
+- You may choose the value of **PGauss** on line 5 to be 2,4 or 6. Other choices will require alterations of the solvers in _CHMCVectorSolver.m_ and _HMCSolver.m_ See the supplemental for implementation details.
 
 # Matlab requirements
 
-All of the files in this repository were tested on MATLAB version R2023b using the [Statistics and Machine Learning Toolbox](https://www.mathworks.com/products/statistics.html)
+Executing these files requires MATLAB version R2023b or later and the [Statistics and Machine Learning Toolbox](https://www.mathworks.com/products/statistics.html)
