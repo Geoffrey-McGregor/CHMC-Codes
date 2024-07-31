@@ -9,9 +9,9 @@ You will find two directories containing the codes used to run the examples foun
 2. `Compact PGauss contains codes for sampling the p-Generalized Gaussian distribution.`
 
 # Compact Chi 
-**Executible files**
+**Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1.`CompactViolin_ produces Figure 1`
+1. `CompactViolin_ produces Figure 1`
 
 2. `CompactHeatD produces the top two panels of Figure 2`
 
