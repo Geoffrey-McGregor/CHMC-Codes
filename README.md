@@ -15,7 +15,7 @@ You will find two directories containing the codes used to run the examples foun
 
 2. `CompactHeatD produces the top two panels of Figure 2`
 
-3. `CompactHeatP_ will produces the bottom two panels of **Figure 2`
+3. `CompactHeatP_ will produces the bottom two panels of Figure 2`
 
 4. `CompactConverence_ produces Figure 3`
 
@@ -33,3 +33,7 @@ Here you find one executable file, PGaussSampler.
 Running _PGaussSampler_ with a specified dimension d (1024, 2560 ,5120, 10240, 20480 or 40960) on line 9 will reproduce a convergence plot as seen in **Figure 4** of the paper.
 
 You may choose the value of PGauss on line 5 to be 2,4 or 6. If you wish to choose a different value for p, you will need to reference our paper's supplemental for how to adjust the Newton solve.
+
+# Matlab requirements
+
+All of the files in this repository were tested on MATLAB version R2023b using the [Statistics and Machine Learning Toolbox](https://www.mathworks.com/products/statistics.html)
