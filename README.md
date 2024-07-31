@@ -29,6 +29,7 @@ You will find two directories containing the codes used to run the examples foun
 **Additional .m files**
 1. `AGSamChi.m is an exact sampler built for sampling the p-generalized Chi distribution.` 
 - We compare our CHMC and HMC samples to the AGSamChi samples to compute errors.`
+
 2. `HeatmapGen.m is called by CompactHeatD.m and CompactHeatP.m to generate the heatmap figures`
 
 # PCompact PGauss:
