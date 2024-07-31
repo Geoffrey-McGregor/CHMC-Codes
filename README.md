@@ -18,13 +18,15 @@ You will find two directories containing the codes used to run the examples foun
 3. `CompactHeatP.m will produces the bottom two panels of Figure 2`
 
 4. `CompactConvergence.m produces Figure 3`
+- Each of these four files calls ChiSampler.m with specific parameter values. ChiSampler.m runs the HMC and CHMC algorithms to sample from the p-generalized Chi distribution.
 
 
 **Additional executible file**
 
 1. `ChiSampler(d,p,N,Chains,T,dt) samples the p-Generalized Chi distribution with your choice of parameters`  
- - See preamble in .m file for parameter descriptions
- - The output of ChiSampler is two matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples. The number of rows corresponds to the number of chains and the number of columns corresponds to the number of samples used.
+ - **Parameters:** See preamble in .m file for parameter descriptions
+ - **Purpose:** ChiSampler.m runs the HMC and CHMC algorithms to sample from the p-generalized Chi distribution.
+ - **Output:** ChiSampler.m produces two matrices, the first being the CHMC samples and the second being the HMC-Leapfrog samples. The number of rows corresponds to the number of chains and the number of columns corresponds to the number of samples used.
 
 **Additional .m files**
 1. `AGSamChi.m is an exact sampler built for sampling the p-generalized Chi distribution.` 
@@ -38,6 +40,7 @@ You will find two directories containing the codes used to run the examples foun
 1. `PGaussSampler.m produces one of the convergence plots from Figure 4.`
 - Choosing the dimension **d** on line 9 from 1024, 2560 ,5120, 10240, 20480 or 40960 will reproduce the corresponding panels from Figure 4.
 - You may choose the value of **PGauss** on line 5 to be 2,4 or 6. Other choices will require alterations of the solvers in _CHMCVectorSolver.m_ and _HMCSolver.m_ See the paper's supplemental materials for implementation details.
+- More details on functionality of this file.
 
 # Matlab requirements
 
