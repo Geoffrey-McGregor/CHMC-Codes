@@ -9,15 +9,15 @@ You will find two directories containing the codes used to run the examples foun
 2. `Compact PGauss contains codes for sampling the p-Generalized Gaussian distribution.`
 
 # Compact Chi 
-** Executible files**
+**Executible files**
 
-1.`_CompactViolin_ produces Figure 1`
+1.`CompactViolin_ produces Figure 1`
 
-Running _CompactHeatD_ will reproduce the top two panels of **Figure 2** from the paper
+2. `CompactHeatD produces the top two panels of Figure 2`
 
-Running _CompactHeatP_ will reproduce the bottom two panels of **Figure 2** from the paper
+3. `CompactHeatP_ will produces the bottom two panels of **Figure 2`
 
-Running _CompactConverence_ will reproduce **Figure 3** from the paper
+4. `CompactConverence_ produces Figure 3`
 
 
 If you wish to sample the p-Generalized Chi distribution with your own set of parameters, call _ChiSampler(d,p,N,Chains,T,dt)_, where
