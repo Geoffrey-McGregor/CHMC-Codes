@@ -2,8 +2,8 @@ format compact
 format short
 
 %Parameter choices
-d=1024;
-p=4;
+d=400;
+p=6;
 Chains=10;
 N=5000;   %Samples
 T=5;      %Integration time
