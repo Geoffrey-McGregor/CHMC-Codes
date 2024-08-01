@@ -43,7 +43,16 @@ You will find two directories containing the codes used to run the examples foun
 1. `PGaussSampler.m produces one of the convergence plots from Figure 4.`
 - Choosing the dimension **d** on line 9 from 1024, 2560 ,5120, 10240, 20480 or 40960 will reproduce the corresponding panels from Figure 4.
 - You may choose the value of **PGauss** on line 5 to be 2,4 or 6. Other choices will require alterations of the solvers in _CHMCVectorSolver.m_ and _HMCSolver.m_ See the paper's supplemental materials for implementation details.
-- More details on functionality of this file.
+- PGaussSampler.m calls **HMCSolver.m** to sample using the Leapfrog integrator and calls **CHMCVectorSolver.m** to sample using the Conservative integrator.
+
+**Additional .m files**
+
+1. 'AGSam.m is an exact sampler built for sampling one-dimensional slices of the p-generalized Chi distribution. We use this to compute the CHMC and HMC sampling errors.'
+2. 'CHMCVectorSolver.m obtains samples using the conservative integrator.'
+3. 'HMCSolver.m obtains samples using the Leapfrog integrator.'
+4. 'PGenCDF.m evalutes the CDF of a one-dimensional slice of the p-generalized Gaussian Distribution. We use this for computing CHMC and HMC errors.'
+5. 'VarComp.m is used for compute errors in the covariance for CHMC and HMC samplers.' 
+
 
 # Matlab requirements
 
