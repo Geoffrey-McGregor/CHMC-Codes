@@ -47,11 +47,11 @@ You will find two directories containing the codes used to run the examples foun
 
 **Additional .m files**
 
-1. 'AGSam.m is an exact sampler built for sampling one-dimensional slices of the p-generalized Chi distribution. We use this to compute the CHMC and HMC sampling errors.'
-2. 'CHMCVectorSolver.m obtains samples using the conservative integrator.'
-3. 'HMCSolver.m obtains samples using the Leapfrog integrator.'
-4. 'PGenCDF.m evalutes the CDF of a one-dimensional slice of the p-generalized Gaussian Distribution. We use this for computing CHMC and HMC errors.'
-5. 'VarComp.m is used for compute errors in the covariance for CHMC and HMC samplers.' 
+1. `AGSam.m is an exact sampler built for sampling one-dimensional slices of the p-generalized Chi distribution. We use this to compute the CHMC and HMC sampling errors.`
+2. `CHMCVectorSolver.m obtains samples using the conservative integrator.`
+3. `HMCSolver.m obtains samples using the Leapfrog integrator.`
+4. `PGenCDF.m evalutes the CDF of a one-dimensional slice of the p-generalized Gaussian Distribution. We use this for computing CHMC and HMC errors.`
+5. `VarComp.m is used for compute errors in the covariance for CHMC and HMC samplers.` 
 
 
 # Matlab requirements
