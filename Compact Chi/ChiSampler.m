@@ -8,21 +8,22 @@ format short
 %Chains=10;
 %N=5000;
 
-%Initialization
+%Variable Initialization
 qJ0Ch=zeros(Chains,N);
 qLFCh=zeros(Chains,N);
 
 for Ch=1:Chains
-
+    %Creates functions (the PDF, the Potential Energy U, its derivative DU and the
+    %Hamiltonian H
     true_func = @(x) (p^(1-d/p))/gamma(d/p)*abs(x).^(d-1).*exp(-abs(x).^p/p);
     U=@(x)-(d-1)*log(abs(x))+abs(x)^p/p;
     DU=@(x)-(d-1)*(1/abs(x))+p*abs(x)^(p-1)/p;
     H=@(x,y)U(x)+y^2/2;
-
+    
+    %Option to set the maximum number of iterations on CHMC solve
     FPIMAX=3;
 
-    peak=(d-1)^(1/p);
-
+    %Variable Initialization
     qJ0=zeros(1,N);
     qLF=zeros(1,N);
     pJ0=zeros(1,N);
@@ -30,6 +31,8 @@ for Ch=1:Chains
     qLRej=0;
     pLRej=0;
 
+    %Starting point for both HMC-Leapfrog and CHMC
+    peak=(d-1)^(1/p);
     qJ0(1)=normrnd(peak,1/2);
     qLF(1)=qJ0(1);
 
@@ -37,7 +40,8 @@ for Ch=1:Chains
     counterJ=0;
 
     for i=2:N
-
+        
+        %Momentum Draw
         p0=randn(1);
         pJ=p0;
         pL=p0;
@@ -52,7 +56,7 @@ for Ch=1:Chains
         PJ=pJ;
         QJ=qJ;
 
-        %Leapfrog
+        %Leapfrog Solve
         PL=PL-dt/2*DU(qL);
         for j=1:T/dt-1
             QL=QL+dt*PL;
@@ -62,7 +66,8 @@ for Ch=1:Chains
         PL=PL-dt/2*DU(qL);
 
         r=min(1,exp(H(qL,pL)-H(QL,PL)));
-
+        
+        %Acceptance/Rejection of sample
         if rand(1)>r
             qLF(i)=qL;
             counter=counter+1;
@@ -76,7 +81,7 @@ for Ch=1:Chains
         end
 
 
-        %CHMC
+        %CHMC Solve
         for j=1:T/dt
             %Splitting Method Initial Guess
             QJ=QJ+pJ*(exp(dt)-1);
@@ -94,7 +99,8 @@ for Ch=1:Chains
         end
 
         r=min(1,exp(H(qJ,pJ)-H(QJ,PJ)));
-
+        
+        %Acceptance/Rejection
         if rand(1)>r
             qJ0(i)=qJ;
             pJ0(i)=pJ;
