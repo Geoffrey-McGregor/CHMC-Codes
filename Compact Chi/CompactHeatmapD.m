@@ -6,16 +6,16 @@ p=6;
 N=10000;
 Chains=10;
 
-%Computes HMC and CHMC Errors for d=400
+%Calls HeatMapGen to computes HMC and CHMC Errors for d=400
 [J0MeanWErrd400,LFMeanWErrd400,J0MeanKSErrd400,LFMeanKSErrd400]=HeatmapGen(400,p,N,Chains);
-%omputes HMC and CHMC Errors for d=800
+%Calls HeatMapGen to computes HMC and CHMC Errors for d=800
 [J0MeanWErrd800,LFMeanWErrd800,J0MeanKSErrd800,LFMeanKSErrd800]=HeatmapGen(800,p,N,Chains);
-%omputes HMC and CHMC Errors for d=1200
+%Calls HeatMapGen to computes HMC and CHMC Errors for d=1200
 [J0MeanWErrd1200,LFMeanWErrd1200,J0MeanKSErrd1200,LFMeanKSErrd1200]=HeatmapGen(1200,p,N,Chains);
 
 
 
-%Plotting
+%Plots the heatmap results
 xvalues = {'$1/2$','$1/4$','$1/8$','$1/16$'};
 yvalues = {'$1$','$2$','$3$','$4$','$5$'};
 
