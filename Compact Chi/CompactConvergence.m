@@ -2,7 +2,7 @@ format compact
 format short
 
 %Parameter choices
-d=400;
+d=400; %d=800 and d=1200
 p=6;
 Chains=10;
 N=5000;   %Samples
@@ -10,14 +10,17 @@ T=5;      %Integration time
 dt=0.1;  %Time step
 
 
-%Exact sampling for comparisons
+%Extract samples using CHMC and HMC-Leapfrog
 [qJ0Ch,qLFCh]=ChiSampler(d,p,N,Chains,T,dt);
+
+%Exact sampling of distribution
 ChiSam=AGSamChi(100000,d,p);
 
-%Initialization
+%Parameters for Plotting
 DD=250;
 Num=length(DD:DD:N);
 
+%Variable Initialization
 J0KSErrCh=zeros(Num,Chains);
 LFKSErrCh=zeros(Num,Chains);
 J0KSMeanErr=zeros(Num,1);
@@ -32,21 +35,21 @@ counter=0;
 for j=DD:DD:N
     counter=counter+1;
     for i=1:Chains
-        %Computing ecdf
+        %Computing CDF from discrete samples for CHMC and HMC-Leapfrog
         [yJ0,xJ0]=ecdf(qJ0Ch(i,1:j));
         [yLF,xLF]=ecdf(qLFCh(i,1:j));
         a=d/p+1-1/p;
         b=p^(1/p-1)*gamma(d/p)/gamma(d/p+1-1/p);
 
-        %Computing Wasserstein
+        %Computing Wasserstein distances
         J0WErrCh(counter,i)=ws_distance(qJ0Ch(i,1:j)',ChiSam,1);
         LFWErrCh(counter,i)=ws_distance(qLFCh(i,1:j)',ChiSam,1);
 
-        %Computing KS Norm
+        %Computing Kolmogorov-Smirnov distances
         J0KSErrCh(counter,i)=max(abs(yJ0-gamcdf(xJ0.^p/p,d/p,1)));
         LFKSErrCh(counter,i)=max(abs(yLF-gamcdf(xLF.^p/p,d/p,1)));
     end
-    %Computing means accros chains for each norm
+    %Computing means across chains for each norm
     J0KSMeanErr(counter)=mean(J0KSErrCh(counter,:));
     LFKSMeanErr(counter)=mean(LFKSErrCh(counter,:));
     J0WMeanErr(counter)=mean(J0WErrCh(counter,:));
