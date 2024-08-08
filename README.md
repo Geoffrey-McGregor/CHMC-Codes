@@ -31,7 +31,7 @@ You will find two directories containing the codes used to run the examples foun
 **Additional .m files**
 1. `AGSamChi.m is an exact sampler built for sampling the p-generalized Chi distribution. We use this to compute the CHMC and HMC sampling errors.` 
 
-2. `HeatmapGen.m is called by CompactHeatD.m and CompactHeatP.m to generate the heatmap from Figure 2.`
+2. `HeatmapGen.m is called by CompactHeatD.m and CompactHeatP.m to generate the heatmap data from Figure 2 using ChiSampler.`
 
 3. `Violin.m and Violinplot.m are called by CompactViolin.m to genereate the violin plots from Figure 1.`
 
