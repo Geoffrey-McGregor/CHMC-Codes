@@ -12,7 +12,6 @@ P=p;
 N = ceil(T/dt);
 
 %LeapFrog
-
 if PGauss==2
     P=P-dt*Q/2;
 for i=1:N-1
@@ -44,7 +43,7 @@ P=P-dt*Q.*Q.*Q.*Q.*Q/2;
 end
 
 p=-p;
-
+%Acceptance/Rejection
 r=min(1,exp(H(q,p)-H(Q,P)));
 if rand(1)>r
     Reject=1;

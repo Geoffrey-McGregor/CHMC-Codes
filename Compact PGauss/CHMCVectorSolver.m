@@ -7,7 +7,7 @@ format compact
 d=length(q);
 
 
-%P-Gaussian Distribution
+%Hamiltonian
 H=@(x,y)sum(x.^PGauss)/PGauss+dot(y,y)*0.5;
 detJ=1;
 
@@ -27,7 +27,7 @@ for i=1:N
     j=1;
     while j<=maxFPI
         j=j+1;
-        %Newton
+        %Newton solve
         if PGauss==2
         G=Q-q-dt*p+dt^2/(PGauss*2)*(Q+q);
         Gp=1+dt^2/(PGauss*2)*(1);
@@ -53,6 +53,7 @@ for i=1:N
     p=P;
 end
 
+%Acceptance/Rejection
 r=min(1,exp(H(qOld,pOld)-H(Q,P))*detJ);
 if rand(1)>r
     Reject=1;
