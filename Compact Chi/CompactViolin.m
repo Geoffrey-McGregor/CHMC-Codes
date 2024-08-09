@@ -8,28 +8,25 @@ T=5;
 dt=0.05;
 p=6;
 
-%Obtain HMC and CHMC sampling data for d=400
+%Obtain HMC and CHMC samples for d=400
 d=400;
 [qJ0Ch4,qLFCh4]=ChiSampler(d,p,N,Chains,T,dt);
 qJ04=reshape(qJ0Ch4,[],1);
 qLF4=reshape(qLFCh4,[],1);
-%Obtain HMC and CHMC sampling data for d=800
+%Obtain HMC and CHMC samples for d=800
 d=800;
 [qJ0Ch8,qLFCh8]=ChiSampler(d,p,N,Chains,T,dt);
 qJ08=reshape(qJ0Ch8,[],1);
 qLF8=reshape(qLFCh8,[],1);
-%Obtain HMC and CHMC sampling data for d=1200
+%Obtain HMC and CHMC samples for d=1200
 d=1200;
 [qJ0Ch12,qLFCh12]=ChiSampler(d,p,N,Chains,T,dt);
 qJ012=reshape(qJ0Ch12,[],1);
 qLF12=reshape(qLFCh12,[],1);
 
-%Plotting
-xvalues = {'$1/2$','$1/4$','$1/8$','$1/16$'};
-yvalues = {'$1$','$2$','$3$','$4$','$5$'};
 
 alphaLevel = 0.1;
-
+%Setting histrogram bin width for different values of p
 if p==2
     width=3;
 end
@@ -40,6 +37,8 @@ if p>=6
     width=.3;
 end
 
+
+%Plotting
 figure(1)
 tcl = tiledlayout(3,3,TileSpacing="tight");
 histPlots = gobjects(9,1); 
