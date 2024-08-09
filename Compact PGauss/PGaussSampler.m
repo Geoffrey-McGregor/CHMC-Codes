@@ -51,13 +51,16 @@ timeCHMCJ0 = zeros(Chains,1);
 energyErrLF=zeros(N,Chains);
 energyErrJ0=zeros(N,Chains);
 
+%Hamiltonian function
 H=@(x,y)sum(x.^PGauss)/PGauss+dot(y,y)/2;
 
 for j=1:Chains
+    %Initialization of momentum
     p=zeros(d,1);
     pLF(:,1,j)=p;
     pJ0(:,1,j)=p;
 
+    %Initialization of q-variable
     q=normrnd(0,1,[d,1]);
     qLF(:,1,j)=q;
     qJ0(:,1,j)=q;
@@ -69,9 +72,10 @@ for j=1:Chains
         fprintf(strcat('Chain #', num2str(j), ' progress at:'))
     end
     for i=2:N
+        % Draw momentum
         p=randn(d,1);
 
-        % Solve using LeapFrog
+        % Obtain sample using HMC-Leapfrog
         tic
         [qLF(:,i,j),pLF(:,i,j),RejectLF(i-1,j)]=HMCSolver(qLF(:,i-1,j),p,dt,T,PGauss);
         timeLF(j) = timeLF(j)+toc;
@@ -79,7 +83,7 @@ for j=1:Chains
         minLF(i,j)=min(1,exp(energyErrLF(i,j)));
 
 
-        % Solve using DMM
+        % Obtain sample using CHMC
         tic
         [qJ0(:,i,j),pJ0(:,i,j),JacJ0(i-1,j),RejectJ0(i-1,j),IterJ0(i,j)]=CHMCVectorSolver(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI,PGauss);
         timeCHMCJ0(j) = timeCHMCJ0(j)+toc;
@@ -246,7 +250,7 @@ fprintf(fid,' d = %10d | dt = %10.3f | N = %10d | T = %10.3f | eTOL = %.3d | max
 fclose(fid);
 
 
-% Generating Plots
+% Setting plot colours for Leapfrog and CHMC
 colorLF = [0, 0.4470, 0.7410];
 colorJ0 = [0.4660, 0.6740, 0.1880];
 
@@ -254,14 +258,20 @@ colorJ0 = [0.4660, 0.6740, 0.1880];
 alphaLevel = 0.1;
 
 clf
+%Number of points on convergence plot
 numPoints = 20;
+
+%Error variable initialization
 covErrLF=zeros(numPoints,Chains);
 covErrJ0=zeros(numPoints,Chains);
+
+%Exact covariance
 covExact = (PGauss^2)^(1/PGauss)*gamma(3/PGauss)/gamma(1/PGauss);
 if updatePercent
     fprintf(strcat('Computing Covariance Error:\n'))
 end
-% tic
+
+%Computing covariance error for each chain
 for j=1:Chains
     fprintf(strcat('Chain #', num2str(j), ':'))
     for i=1:numPoints
@@ -297,11 +307,13 @@ J0IndAcc=find(meanCEJ0-Acc<0,1)*floor(N/numPoints);
 YRej=AGSam(100000,PGauss);
 
 DD=N/20;
+%Variable initialization
 J0KSMaxErr=zeros(length(DD:DD:N),Chains);
 LFKSMaxErr=zeros(length(DD:DD:N),Chains);
 J0WMaxErr=zeros(length(DD:DD:N),Chains);
 LFWMaxErr=zeros(length(DD:DD:N),Chains);
 
+%Computing Wasserstein and Kolmogorov-Smirnov Errors accross all chains
 for C=1:Chains
     tic
     ct=0;
@@ -327,12 +339,13 @@ for C=1:Chains
     toc
 end
 
-%This finds the mean of the over the chains for the plot
+%Computing error means accross chains for plotting
 meanJ0KS=mean(J0KSMaxErr');
 meanLFKS=mean(LFKSMaxErr');
 meanJ0W=mean(J0WMaxErr');
 meanLFW=mean(LFWMaxErr');
 
+%Plotting
 figure(1)
 hold on
 semilogy(1,meanLFKS(1),'color',colorLF,'linewidth',3);

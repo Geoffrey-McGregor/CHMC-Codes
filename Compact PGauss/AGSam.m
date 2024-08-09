@@ -1,4 +1,7 @@
 function [y]= AGSam(n,p)
+%This code performs exact samping of a 1-dimensional p-generalized Gaussian
+
+
 PropArea=0;
 MaxI=0;
 IArea=0;
