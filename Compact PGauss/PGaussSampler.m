@@ -6,7 +6,7 @@ format long
 PGauss=4;
 
 %Number of dimensions (Figure 4 includes 1024, 2560, 5120, 10240, 20480 or 40960)
-d=1024;
+d=128;
 
 %Number of iterations
 N=5000;
@@ -317,7 +317,9 @@ LFWMaxErr=zeros(length(DD:DD:N),Chains);
 for C=1:Chains
     tic
     ct=0;
-    C
+    X=['Currently on chain ', num2str(C), ' of the Error Computation'];
+    disp(X)
+    %C
     for j=DD:DD:N
         ct=ct+1;
         for i=1:d

@@ -22,7 +22,7 @@ P=zeros(d,1);
 
 for i=1:N
     %Splitting method initial guess
-    Q=Q+P*(exp(dt)-1);
+    Q=Q+P*(dt);
 
     j=1;
     while j<=maxFPI
