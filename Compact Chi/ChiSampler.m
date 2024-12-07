@@ -84,7 +84,7 @@ for Ch=1:Chains
         %CHMC Solve
         for j=1:T/dt
             %Splitting Method Initial Guess
-            QJ=QJ+pJ*(exp(dt)-1);
+            QJ=QJ+pJ*(dt);
 
             %Newton's method
             jj=0;
