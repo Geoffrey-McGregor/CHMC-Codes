@@ -61,7 +61,7 @@ You will find two directories containing the codes used to run the examples foun
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
 1. CompactPNormComparison.m produces Figure 5.
-- Calls `PGaussSampler.m` using d=2560, 10240 and 20960 and dt=0.1, 0.05 and 0.025 to obtain samples from the p-generalized Gaussian..
+- Calls **PGaussSampler.m** using **d**=2560, 10240 and 20960 and **dt**=0.1, 0.05 and 0.025 to obtain samples from the p-generalized Gaussian..
 
 **Additional .m files**
 
