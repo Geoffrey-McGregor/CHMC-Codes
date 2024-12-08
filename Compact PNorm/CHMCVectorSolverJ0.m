@@ -21,7 +21,7 @@ Iter = zeros(N,1);
 
 for i=1:N
     % Begin with an initial guess
-    Q = Q+P*(exp(dt)-1);
+    Q = Q+P*(dt);
 
     % Newton's Method
     j=1;
