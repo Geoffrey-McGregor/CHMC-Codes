@@ -8,7 +8,7 @@ You will find two directories containing the codes used to run the examples foun
 
 2. `Compact PGauss contains codes for sampling the p-Generalized Gaussian distribution.`
 
-3. `Compact PNorm contains codes for sampling the p-Generalized Gaussian distribution then transforming the samples to the p-generalized Chi distribution".
+3. `Compact PNorm contains codes for sampling the p-Generalized Gaussian distribution then transforming the samples to the p-generalized Chi distribution.`
 
 # Compact Chi 
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
