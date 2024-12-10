@@ -138,7 +138,8 @@ for j=plotStepSize:plotStepSize:N
 end
 
 %% Plotting
-figure(1)
+fig = figure(1);
+clf
 tcl = tiledlayout(4,3,TileSpacing="tight");
 alphaLevel = 0.1;
 width = 0.3;
@@ -148,16 +149,20 @@ colorCHMC = [0.4660, 0.6740, 0.1880];
 %% First Column of Plots
 nexttile(1)
 d=400;
-xVal = linspace(0,4,200);
+xVal = linspace(0,5,400);
 args = (d-1)*log(xVal)-abs(xVal).^p/p - (d/p-1)*log(p)-log(gamma(d/p));
 yVal = exp(args);
 hold on
 plot(xVal,yVal,'linewidth',3,'color','r')
 hold off
-xlim([0 4])
-ylim([0 11])
+xiStar = (d-1)^(1/p);
+xlim([xiStar-1 xiStar+1])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)])
 yticks([])
 title("$d=400$",'interpreter','latex');
+xlabel('$\xi$','Interpreter','latex')
 ylabel({'$6$-generalized $\chi$'; 'density function'},'interpreter','latex');
 
 nexttile(4)
@@ -175,11 +180,13 @@ histogram(qLF4,edges,'Normalization','pdf','FaceColor',colorLF)
 plot(CurveX,CurveY/In,'linewidth',3,'color','r')
 hold off
 set(gca,'XTick',[])
-xlim([xp-0.25 xp+0.25])
-ylim([0 12])
+xlim([xp-0.275 xp+0.275])
+xticks([round(xp-0.25,2) round(xp,2) round(xp+0.25,2)])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)+5])
 yticks([]);
-xStr = strcat('$\xi^*$=', num2str(xp));
-xlabel(xStr,'Interpreter','latex')
+xlabel('$\xi$','Interpreter','latex')
 ylabel({'Histogram of';'chain samples'},'interpreter','latex');
 
 nexttile(7)
@@ -198,6 +205,8 @@ ylim([min(CurveX)-DX/2 max(CurveX)+DX/2])
 xlim([0 21])
 yticks([]);
 xlabel({'Violin plot of';'chain samples'},'interpreter','latex')
+xStr = strcat('$\xi^*$=', num2str(xp));
+ylabel(xStr,'Interpreter','latex')
 view([90,90])
 
 nexttile(10)
@@ -222,24 +231,27 @@ semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr4,'color',colorCHMC,'linewidth',
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr4,'color',colorCHMC,'linewidth',3,'LineStyle','--');
 set(gca, 'YScale', 'log')
 hold off
-%legend('HMC-LF (KS Distance)', 'HMC-LF ($W_1$ Distance)', 'CHMC (KS Distance)','CHMC ($W_1$ Distance)','interpreter','latex')
-xlim([250 5000])
+xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
 grid on
 
 %% Second Column of Plots
 nexttile(2)
 d=800;
-xVal = linspace(0,4,200);
+xVal = linspace(0,5,400);
 args = (d-1)*log(xVal)-abs(xVal).^p/p - (d/p-1)*log(p)-log(gamma(d/p));
 yVal = exp(args);
 hold on
 plot(xVal,yVal,'linewidth',3,'color','r')
 hold off
-xlim([0 4])
-ylim([0 11])
+xiStar = (d-1)^(1/p);
+xlim([xiStar-1 xiStar+1])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)])
 yticks([])
 title("$d=800$",'interpreter','latex');
+xlabel('$\xi$','Interpreter','latex')
 
 nexttile(5)
 xp=(d-1)^(1/p);
@@ -257,11 +269,13 @@ plot(CurveX,CurveY/In,'linewidth',3,'color','r')
 hold off
 set(gca,'XTick',[])
 set(gca,'YTick',[])
-xlim([xp-0.25 xp+0.25])
-ylim([0 12])
+xlim([xp-0.275 xp+0.275])
+xticks([round(xp-0.25,2) round(xp,2) round(xp+0.25,2)])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)+5])
 yticks([]);
-xStr = strcat('$\xi^*$=', num2str(xp));
-xlabel(xStr,'Interpreter','latex')
+xlabel('$\xi$','Interpreter','latex')
 
 nexttile(8)
 hold on
@@ -278,6 +292,8 @@ hold off
 ylim([min(CurveX)-DX/2 max(CurveX)+DX/2])
 xlim([0 21])
 yticks([]);
+xStr = strcat('$\xi^*$=', num2str(xp));
+ylabel(xStr,'Interpreter','latex')
 view([90,90])
 
 nexttile(11)
@@ -302,7 +318,7 @@ semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr8,'color',colorCHMC,'linewidth',
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr8,'color',colorCHMC,'linewidth',3,'LineStyle','--');
 set(gca, 'YScale', 'log')
 hold off
-xlim([250 5000])
+xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
 yticklabels({})
 grid on
@@ -310,16 +326,20 @@ grid on
 %% Third Column of Plots
 nexttile(3)
 d=1200;
-xVal = linspace(0,4,200);
+xVal = linspace(0,5,400);
 args = (d-1)*log(xVal)-abs(xVal).^p/p - (d/p-1)*log(p)-(log(sqrt(2*pi))+(d/p-1/2)*log(d/p)-d/p);%log(gamma(d/p));
 yVal = exp(args);
 hold on
 plot(xVal,yVal,'linewidth',3,'color','r')
 hold off
-xlim([0 4])
-ylim([0 11])
+xiStar = (d-1)^(1/p);
+xlim([xiStar-1 xiStar+1])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)])
 yticks([])
 title("$d=1200$",'interpreter','latex');
+xlabel('$\xi$','Interpreter','latex')
 
 nexttile(6)
 xp=(d-1)^(1/p);
@@ -333,18 +353,21 @@ In=trapz(CurveX,CurveY);
 DX=(max(CurveX)-min(CurveX))/2;
 plot(CurveX,CurveY/In,'linewidth',3,'color','r')
 hold on
+histogram(qLF12,edges,'Normalization','pdf','FaceColor',colorLF,'FaceAlpha',0.5)
 histogram(qJ012,edges,'Normalization','pdf','FaceColor',colorCHMC)
-histogram(qLF12,edges,'Normalization','pdf','FaceColor',colorLF)
+histogram(qLF12,edges,'Normalization','pdf','FaceColor',colorLF,'FaceAlpha',0.5)
 plot(CurveX,CurveY/In,'linewidth',3,'color','r')
 hold off
 set(gca,'XTick',[])
 set(gca,'YTick',[])
-legend({'Exact PDF','CHMC','HMC-LF'},'Interpreter','latex')
-xlim([xp-0.25 xp+0.25])
-ylim([0 12])
+legend({'Exact PDF','HMC-LF','CHMC'},'Interpreter','latex')
+xlim([xp-0.275 xp+0.275])
+xticks([round(xp-0.25,2) round(xp,2) round(xp+0.25,2)])
+xiStarMax = (1200-1)^(1/p);
+args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1200/p);
+ylim([0 exp(args)+5])
 yticks([]);
-xStr = strcat('$\xi^*$=', num2str(xp));
-xlabel(xStr,'Interpreter','latex')
+xlabel('$\xi$','Interpreter','latex')
 leg = legend('Orientation', 'Horizontal');
 leg.Layout.Tile = 'north';
 
@@ -363,6 +386,8 @@ hold off
 ylim([min(CurveX)-DX/2 max(CurveX)+DX/2])
 xlim([0 21])
 yticks([]);
+xStr = strcat('$\xi^*$=', num2str(xp));
+ylabel(xStr,'Interpreter','latex')
 view([90,90])
 
 nexttile(12)
@@ -387,22 +412,24 @@ semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr12,'color',colorCHMC,'linewidth'
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr12,'color',colorCHMC,'linewidth',3,'LineStyle','--');
 set(gca, 'YScale', 'log')
 hold off
-xlim([250 5000])
+xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
 yticklabels({})
 grid on
 
 ax = axes(tcl,'Visible','off');
 hold(ax,'on');
-labelLFKS = plot(ax,NaN,'DisplayName','HMC-LF (KS Distance)','color',colorLF,'linewidth',2);
-labelLFW1 = plot(ax,NaN,'DisplayName','HMC-LF ($W_1$ Distance)','color',colorLF,'linewidth',2,'LineStyle','--');
-labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'linewidth',2);
-labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2,'LineStyle','--');
+labelLFKS = plot(ax,NaN,'DisplayName','HMC-LF (KS Distance)','color',colorLF,'linewidth',2.5);
+labelLFW1 = plot(ax,NaN,'DisplayName','HMC-LF ($W_1$ Distance)','color',colorLF,'linewidth',2.5,'LineStyle','--');
+labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'linewidth',2.5);
+labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2.5,'LineStyle','--');
 hold(ax,'off');
 leg = legend([labelLFKS, labelLFW1, labelCHMCKS, labelCHMCW1],'Interpreter','latex','Orientation','horizontal','Location','south');
 leg.Layout.Tile = 'south'; 
 
+set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
-compactHistogramViolinPlotStr = strcat('compactHistogramViolinConvergencePlot-d',num2str(d),'p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+compactHistogramViolinPlotStr = strcat('compactHistogramViolinConvergencePlot-p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+fig.Position = [0,0,1175,825];
 print('-dpng','-r400',compactHistogramViolinPlotStr)
