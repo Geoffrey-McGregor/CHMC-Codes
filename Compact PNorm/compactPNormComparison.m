@@ -22,7 +22,6 @@ dt=0.05;
 dt=0.025;
 [xiJ0dt3,xiFullJdt3,xiLFdt3,JacJ0dt3,JacFullJdt3,minJ0dt3,minFullJdt3,minLFdt3,deltaHJ0dt3,deltaHFullJdt3,deltaHLFdt3,RejectionTracker3]=PGaussSampler(dimArray,p,N,T,dt);
 
-
 %% Generating Plots
 fig = figure(1);
 clf
