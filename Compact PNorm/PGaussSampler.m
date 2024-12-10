@@ -104,14 +104,14 @@ function[xiJ0d,xiFullJd,xiLFd,JacJ0d,JacFullJd,minJ0d,minFullJd,minLFd,deltaHJ0d
     
                 % CHMC-J0
                 tic
-                [qJ0(:,i,j),pJ0(:,i,j),JacJ0(i-1,j),RejectJ0(i-1,j),IterJ0(i,j),alpha,deltaH] = CHMCVectorSolverJ0(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI);
+                [qJ0(:,i,j),pJ0(:,i,j),JacJ0(i-1,j),RejectJ0(i-1,j),IterJ0(i,j),alpha,deltaH] = CHMCSolverJ0(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI);
                 timeCHMCJ0(j) = timeCHMCJ0(j)+toc;
                 minJ0(i,j) = alpha;
                 deltaHJ0(i,j) = deltaH;
     
                 % CHMC-FullJ
                 tic
-                [qFullJ(:,i,j),pFullJ(:,i,j),JacFullJ(i-1,j),RejectFullJ(i-1,j),IterFullJ(i,j),alpha,deltaH] = CHMCVectorSolverFullJ(qFullJ(:,i-1,j),p,dt,T,energyTol,maxFPI);
+                [qFullJ(:,i,j),pFullJ(:,i,j),JacFullJ(i-1,j),RejectFullJ(i-1,j),IterFullJ(i,j),alpha,deltaH] = CHMCSolverFullJ(qFullJ(:,i-1,j),p,dt,T,energyTol,maxFPI);
                 timeCHMCFullJ(j) = timeCHMCFullJ(j)+toc;
                 minFullJ(i,j) = alpha;
                 deltaHFullJ(i,j) = deltaH;
