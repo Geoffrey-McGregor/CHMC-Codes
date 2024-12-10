@@ -4,7 +4,7 @@ format short
 format compact
 
 %Fixed parameters for Figure 1
-Chains=2;
+Chains=1;
 N=10000;
 T=4;
 p=4;
@@ -24,7 +24,7 @@ dt=0.025;
 
 
 %% Generating Plots
-figure(1)
+fig = figure(1);
 clf
 tcl = tiledlayout(4,3,TileSpacing="tight");
 histPlots = gobjects(9,1); 
@@ -41,7 +41,7 @@ colord{2} = [0.8500, 0.3250, 0.0980];
 colord{3} = [1.0000 0.9137 0.1176];
 
 %% Histogram of exp(delta H)
-binLimits = [0,2];
+binLimits = [0,3];
 binNumber = 50;
 
 nexttile(tcl)
@@ -86,7 +86,7 @@ legend(Legends,'Interpreter','latex')
 yticks([]);
 
 %% Histogram of det(J)
-binLimits=[0,2];
+binLimits=[0,3];
 binNumber = 50;
 
 nexttile(tcl)
@@ -97,7 +97,6 @@ end
 xlabel({'$\det J_{\Psi_{EP}}$'},'Interpreter','latex');
 ylabel({'Histogram of $\det J_{\Psi_{EP}}$'},'Interpreter','latex')
 hold off
-xlim([0 2])
 yticks([]);
 
 nexttile(tcl)
@@ -107,7 +106,6 @@ for i=1:3
 end
 hold off
 xlabel({'$\det J_{\Psi_{EP}}$'},'Interpreter','latex');
-xlim([0 2])
 yticks([]);
 
 nexttile(tcl)
@@ -121,7 +119,6 @@ end
 hold off
 xlabel({'$\det J_{\Psi_{EP}}$'},'Interpreter','latex');
 legend(Legends,'Interpreter','latex')
-xlim([0 2])
 yticks([]);
 
 %% ViolinPlot for acceptance probability with det(J)
@@ -163,7 +160,7 @@ for k=1:3
 end
 set(gca,'XTick',[],'YAxisLocation', 'right')
 hold off
-ylim([0.4 1])
+ylim([0.35 1])
 xlabel({'$d$'},'Interpreter','latex');
 dimStr = dimArray';
 xlim([0.25,2.75])
@@ -185,7 +182,7 @@ for k=1:3
 end
 set(gca,'XTick',[],'YAxisLocation', 'right')
 hold off
-ylim([0.7 1])
+ylim([0.65 1])
 xlabel({'$d$'},'Interpreter','latex','FontWeight','bold');
 dimStr = dimArray';
 xlim([0.25,2.75])
@@ -221,6 +218,9 @@ for i=1:3
     xlabel(xStr,'Interpreter','latex');
     xticks([]);
     xlim(binLimits)
+    xiStarMax = (dimArray(3)-1)^(1/p);
+    args = (dimArray(3)-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (dimArray(3)/p-1)*log(p)-gammaln(dimArray(3)/p);
+    ylim([0 exp(args)])
     yticks([]);
     if(i==1)
         ylabel({'Histogram of $\xi$'},'Interpreter','latex')
@@ -249,6 +249,9 @@ for i=1:3
     xlabel(xStr,'Interpreter','latex');
     xticks([]);
     xlim([xiStar-dXi(i),xiStar+dXi(i)])
+    xiStarMax = (dimArray(3)-1)^(1/p);
+    args = (dimArray(3)-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (dimArray(3)/p-1)*log(p)-gammaln(dimArray(3)/p);
+    ylim([0 exp(args)])
     yticks([]);
 end
 
@@ -273,6 +276,9 @@ for i=1:3
     xlabel(xStr,'Interpreter','latex');
     xticks([]);
     xlim([xiStar-dXi(i),xiStar+dXi(i)])
+    xiStarMax = (dimArray(3)-1)^(1/p);
+    args = (dimArray(3)-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (dimArray(3)/p-1)*log(p)-gammaln(dimArray(3)/p);
+    ylim([0 exp(args)])
     yticks([]);
 end
 
@@ -286,6 +292,10 @@ hold(ax,'off');
 leg = legend([labelExact,labelLF, labelCHMCFullJ, labelCHMC],'Interpreter','latex','Orientation','horizontal','Location','south');
 leg.Layout.Tile = 'south'; 
 
+set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
+set(findall(gcf,'-property','FontSize'),'FontSize',14)
+
 % title("Comparison of $\alpha$, $\det(J)$ and $\xi$ versus $\tau$", 'interpreter','latex');
 compactPNormComparisonPlotStr = strcat('compactPNormComparison-d',num2str(d),'p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+fig.Position = [0,0,1175,800];
 print('-dpng','-r400',compactPNormComparisonPlotStr)
