@@ -187,7 +187,7 @@ args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1
 ylim([0 exp(args)+5])
 yticks([]);
 xlabel('$\xi$','Interpreter','latex')
-ylabel({'Histogram of';'chain samples'},'interpreter','latex');
+ylabel({'Histogram of';'combined samples'},'interpreter','latex');
 
 nexttile(7)
 hold on
@@ -360,7 +360,7 @@ plot(CurveX,CurveY/In,'linewidth',3,'color','r')
 hold off
 set(gca,'XTick',[])
 set(gca,'YTick',[])
-legend({'Exact PDF','HMC-LF','CHMC'},'Interpreter','latex')
+legend({'Exact PDF','HMC--LF','CHMC'},'Interpreter','latex')
 xlim([xp-0.275 xp+0.275])
 xticks([round(xp-0.25,2) round(xp,2) round(xp+0.25,2)])
 xiStarMax = (1200-1)^(1/p);
@@ -419,8 +419,8 @@ grid on
 
 ax = axes(tcl,'Visible','off');
 hold(ax,'on');
-labelLFKS = plot(ax,NaN,'DisplayName','HMC-LF (KS Distance)','color',colorLF,'linewidth',2.5);
-labelLFW1 = plot(ax,NaN,'DisplayName','HMC-LF ($W_1$ Distance)','color',colorLF,'linewidth',2.5,'LineStyle','--');
+labelLFKS = plot(ax,NaN,'DisplayName','HMC--LF (KS Distance)','color',colorLF,'linewidth',2.5);
+labelLFW1 = plot(ax,NaN,'DisplayName','HMC--LF ($W_1$ Distance)','color',colorLF,'linewidth',2.5,'LineStyle','--');
 labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'linewidth',2.5);
 labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2.5,'LineStyle','--');
 hold(ax,'off');
