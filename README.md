@@ -61,8 +61,8 @@ You will find two directories containing the codes used to run the examples foun
 
 **Additional .m files**
 
-1. `CHMCVectorSolverJ0.m obtains samples using the conservative integrator with approximate Jacobian 1.`
-2. `CHMCVectorSolverFullJ.m obtains samples using the conservative integrator using the exact Jacobian.`
+1. `CHMCSolverJ0.m obtains samples using the conservative integrator with approximate Jacobian 1.`
+2. `CHMCSolverFullJ.m obtains samples using the conservative integrator using the exact Jacobian.`
 3. `HMCSolver.m obtains samples using the Leapfrog integrator.`
 4. `Violin.m and Violinplot.m are called by CompactPNormComparison.m to genereate the violin plots from Figure 5.`
 
