@@ -22,6 +22,7 @@ dt=0.05;
 dt=0.025;
 [xiJ0dt3,xiFullJdt3,xiLFdt3,JacJ0dt3,JacFullJdt3,minJ0dt3,minFullJdt3,minLFdt3,deltaHJ0dt3,deltaHFullJdt3,deltaHLFdt3,RejectionTracker3]=PGaussSampler(dimArray,p,N,T,dt);
 
+
 %% Generating Plots
 fig = figure(1);
 clf
@@ -73,7 +74,7 @@ hold on
 j=1;
 for i=1:3
     histogram(exp(deltaHLFdt3(i,warmupN:N)),'Normalization','pdf','NumBins',binNumber,'BinLimits',binLimits,'FaceColor',colord{i})
-    Legends{j}=strcat(' HMC-LF, $d$=', num2str(dimArray(i)));
+    Legends{j}=strcat(' HMC--LF, $d$=', num2str(dimArray(i)));
     j = j+1;
     if(i==2)
         title("$\tau$ = 0.025",'Interpreter','latex')
@@ -112,7 +113,7 @@ hold on
 j=1;
 for i=1:3
     histogram(JacFullJdt3(i,warmupN:N),'Normalization','pdf','NumBins',binNumber,'BinLimits',binLimits,'FaceColor',colord{i})
-    Legends{j}=strcat(' CHMC-FullJ, $d$=', num2str(dimArray(i)));
+    Legends{j}=strcat(' CHMC--FullJ, $d$=', num2str(dimArray(i)));
     j = j+1;
 end
 hold off
@@ -284,9 +285,9 @@ end
 ax = axes(tcl,'Visible','off');
 hold(ax,'on');
 labelExact = plot(ax,NaN,'DisplayName','Exact PDF','color','r','linewidth',2);
-labelLF = histogram(ax,NaN,'DisplayName','HMC-LF','FaceColor',colorLF, 'EdgeAlpha',0);
+labelLF = histogram(ax,NaN,'DisplayName','HMC--LF','FaceColor',colorLF, 'EdgeAlpha',0);
 labelCHMC = histogram(ax,NaN,'DisplayName','CHMC','FaceColor',colorJ0, 'EdgeAlpha',0);
-labelCHMCFullJ = histogram(ax,NaN,'DisplayName','CHMC-FullJ','FaceColor',colorFullJ, 'EdgeAlpha',0);
+labelCHMCFullJ = histogram(ax,NaN,'DisplayName','CHMC--FullJ','FaceColor',colorFullJ, 'EdgeAlpha',0);
 hold(ax,'off');
 leg = legend([labelExact,labelLF, labelCHMCFullJ, labelCHMC],'Interpreter','latex','Orientation','horizontal','Location','south');
 leg.Layout.Tile = 'south'; 
