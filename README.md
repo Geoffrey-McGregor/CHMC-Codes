@@ -37,7 +37,7 @@ You will find two directories containing the codes used to run the examples foun
 # Compact PGauss:
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1.`CompactPGaussComparison.m` produces Figure 3.
+1.`CompactPGaussComparison.m produces Figure 3.`
 
 **Additional .m files**
 
@@ -56,7 +56,7 @@ You will find two directories containing the codes used to run the examples foun
 # Compact PNorm
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1. CompactPNormComparison.m produces Figure 4.
+1. `CompactPNormComparison.m produces Figure 4.`
 - Calls **PGaussSampler.m** using **d**=2560, 10240 and 40960 and **dt**=0.1, 0.05 and 0.025 to obtain samples from the p-generalized Gaussian.
 
 **Additional .m files**
