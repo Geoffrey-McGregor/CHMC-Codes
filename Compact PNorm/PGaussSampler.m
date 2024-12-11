@@ -72,7 +72,6 @@ function[xiJ0d,xiFullJd,xiLFd,JacJ0d,JacFullJd,minJ0d,minFullJd,minLFd,deltaHJ0d
         timeCHMCJ0 = zeros(Chains,1);
         timeCHMCFullJ = zeros(Chains,1);
     
-        H=@(x,y)sum(x.^PGauss)/PGauss+dot(y,y)/2;
     
         for j=1:Chains
             p=zeros(d,1);
