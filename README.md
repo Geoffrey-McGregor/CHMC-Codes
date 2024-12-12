@@ -71,4 +71,5 @@ You will find two directories containing the codes used to run the examples foun
 # Matlab requirements
 
 Executing these files requires MATLAB version R2023b or later and the [Statistics and Machine Learning Toolbox](https://www.mathworks.com/products/statistics.html)
+
 This repository contains the codes ws_distance.m from https://github.com/nklb/wasserstein-distance for computing the Wasserstein distance between discrete distributions and Violin.m and Violinplot.m from https://github.com/bastibe/Violinplot-Matlab for producing violin plots.
