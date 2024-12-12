@@ -41,7 +41,7 @@ You will find two directories containing the codes used to run the examples foun
 
 **Additional .m files**
 
-1. `PGaussSampler.m is called by **CompactPGaussComparison.m** to generate the convergence data for the specified parameters.`
+1. `PGaussSampler.m is called by CompactPGaussComparison.m to generate the convergence data for the specified parameters.`
   - PGaussSampler.m calls **HMCSolver.m** to sample using the Leapfrog integrator and calls **CHMCVectorSolver.m** to sample using the conservative integrator.
   - dimArray contains the dimensions **d** and the value of **p** corresponds to the p-generalized Gaussian distributions being sampled.
   - **N** is the number of samples and **Chains** is the number of chains,**T** **dt** are the integration time and step size respectively.
