@@ -13,9 +13,9 @@ You will find two directories containing the codes used to run the examples foun
 # Compact Chi 
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1. `CompactChiConvergence.m produces Figure 1.`
+1. `CompactChiComparison.m produces Figure 1.`
 
-2. `CompactHeat.m produces the two panels of Figure 2.`
+2. `CompactHeatmap.m produces the two panels of Figure 2.`
 
 - These files calls **ChiSampler.m** with specific parameter values, and runs the HMC and CHMC algorithms to sample from the p-generalized Chi distribution.
 
