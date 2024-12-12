@@ -13,7 +13,7 @@ You will find two directories containing the codes used to run the examples foun
 # Compact Chi 
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1. `CompactHistogramViolinConvergence.m produces Figure 1.`
+1. `CompactChiConvergence.m produces Figure 1.`
 
 2. `CompactHeat.m produces the two panels of Figure 2.`
 
