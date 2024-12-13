@@ -139,7 +139,7 @@ t2.Rotation = 90;
 set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
-HeatMapPlotStr = strcat('compactHeatMapKS',datestr(now,'_dd-mm-yy_HH-MM-SS'));
+HeatMapPlotStr = strcat('CompactHeatMapKS',datestr(now,'_dd-mm-yy_HH-MM-SS'));
 fig.Position = [0,0,1000,260];
 print('-dpng','-r400',HeatMapPlotStr)
 
@@ -260,6 +260,6 @@ t2.Rotation = 90;
 set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
-HeatMapPlotStr = strcat('compactHeatMapW1',datestr(now,'_dd-mm-yy_HH-MM-SS'));
+HeatMapPlotStr = strcat('CompactHeatMapW1',datestr(now,'_dd-mm-yy_HH-MM-SS'));
 fig.Position = [0,0,1000,260];
 print('-dpng','-r400',HeatMapPlotStr)
