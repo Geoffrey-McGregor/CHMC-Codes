@@ -12,7 +12,6 @@ T=4;
 p=4;
 dt=0.1;
 dimArray=[1280, 2560, 5120, 10240, 20480, 40960];
-%dimArray=[80, 160, 320, 640, 1280, 2560]; % Smaller dimensions for testing
 %dimArray=[10, 20, 40, 80, 160, 320]; % Smaller dimensions for testing
 sizeOfdimArray = length(dimArray);
 
@@ -44,12 +43,10 @@ end
 colorLF = [0, 0.4470, 0.7410];
 colorCHMC = [0.4660, 0.6740, 0.1880];
 alphaLevel = 0.1;
-%Legend on/off
-legendOption = 1;
 
 fig = figure(1);
 clf
-tcl = tiledlayout(2,3,TileSpacing="tight");
+tcl = tiledlayout(2,3,TileSpacing="tight",Padding="compact");
 
 for dimIdx = 1:sizeOfdimArray
     nexttile(tcl)
@@ -83,12 +80,18 @@ for dimIdx = 1:sizeOfdimArray
     semilogy(plotStepSize:plotStepSize:N,meanW1J0(dimIdx,:),'color',colorCHMC,'linewidth',3,'LineStyle','--');
     semilogy(plotStepSize:plotStepSize:N,meanCEJ0(dimIdx,:),'color',colorCHMC,'linewidth',3,'LineStyle',':');
 
-    title(strcat('$d = $', ' ',num2str(dimArray(dimIdx))),'Interpreter','latex')
+    title(strcat('$d = $ ',' ',num2str(dimArray(dimIdx))),'Interpreter','latex')
     if( dimIdx <= 3)
         xticklabels({''})
+    else
+        xlabel({'MCMC Iterations'},'Interpreter','latex')
     end
-    if( dimIdx ~= 1 && dimIdx ~= 4)
+    if dimIdx == 1 || dimIdx == 4
         yticklabels({''})
+    elseif dimIdx == 2 || dimIdx == 5 
+        yticklabels({''})
+    else
+        set(gca,'YAxisLocation', 'right')
     end
     xlim([250 5000])
     ylim([3e-2 1e-0])
@@ -97,24 +100,23 @@ for dimIdx = 1:sizeOfdimArray
     hold off
 end
 
-%Plot legend if legendOption is true
-if( legendOption )
-    ax = axes(tcl,'Visible','off');
-    hold(ax,'on');
-    labelLFKS = plot(ax,NaN,'DisplayName','HMC--LF (KS Distance)','color',colorLF,'linewidth',2.5);
-    labelLFW1 = plot(ax,NaN,'DisplayName','HMC--LF ($W_1$ Distance)','color',colorLF,'linewidth',2.5,'LineStyle','--');
-    labelLFCov = plot(ax,NaN,'DisplayName','HMC--LF (Covariance)','color',colorLF,'linewidth',2.5,'LineStyle',':');
-    labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'linewidth',2.5);
-    labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2.5,'LineStyle','--');
-    labelCHMCCov = plot(ax,NaN,'DisplayName','CHMC (Covariance)','color',colorCHMC,'linewidth',2.5,'LineStyle',':');
-    hold(ax,'off');
-    leg = legend([labelLFKS, labelLFW1, labelLFCov, labelCHMCKS, labelCHMCW1, labelCHMCCov],'Interpreter','latex','Orientation','horizontal','Location','south');
-    leg.Layout.Tile = 'south'; 
-end
+%Plot legend
+ax = axes(tcl,'Visible','off');
+hold(ax,'on');
+labelLFKS = plot(ax,NaN,'DisplayName','HMC--LF (KS Distance)','color',colorLF,'linewidth',2.5);
+labelLFW1 = plot(ax,NaN,'DisplayName','HMC--LF ($W_1$ Distance)','color',colorLF,'linewidth',2.5,'LineStyle','--');
+labelLFCov = plot(ax,NaN,'DisplayName','HMC--LF (Covariance)','color',colorLF,'linewidth',2.5,'LineStyle',':');
+labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'linewidth',2.5);
+labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2.5,'LineStyle','--');
+labelCHMCCov = plot(ax,NaN,'DisplayName','CHMC (Covariance)','color',colorCHMC,'linewidth',2.5,'LineStyle',':');
+hold(ax,'off');
+leg = legend([labelLFKS, labelLFW1, labelLFCov, labelCHMCKS, labelCHMCW1, labelCHMCCov],'Interpreter','latex','Orientation','horizontal','Location','south');
+leg.Layout.Tile = 'south'; 
+ylabel(tcl,{'Error in various metrics (KS Distance, $W_1$ Distance, Covariance)'},'Interpreter','latex')
 
 set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
-compactPGaussPlotStr = strcat('compactPGaussComparison-p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
-fig.Position = [0,0,1250,500];
+compactPGaussPlotStr = strcat('CompactPGaussComparison-p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+fig.Position = [0,0,1125,500];
 print('-dpng','-r400',compactPGaussPlotStr)
