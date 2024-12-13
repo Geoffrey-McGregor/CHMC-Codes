@@ -419,7 +419,7 @@ xlabel('MCMC Iterations','interpreter','latex')
 hold off
 xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
-yticklabels({})
+%yticklabels({})
 grid on
 
 ax = axes(tcl,'Visible','off');
