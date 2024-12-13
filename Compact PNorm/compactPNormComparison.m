@@ -296,6 +296,6 @@ set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','late
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
 % title("Comparison of $\alpha$, $\det(J)$ and $\xi$ versus $\tau$", 'interpreter','latex');
-compactPNormComparisonPlotStr = strcat('compactPNormComparison-d',num2str(d),'p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+compactPNormComparisonPlotStr = strcat('CompactPNormComparison-d',num2str(d),'p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
 fig.Position = [0,0,1175,800];
 print('-dpng','-r400',compactPNormComparisonPlotStr)
