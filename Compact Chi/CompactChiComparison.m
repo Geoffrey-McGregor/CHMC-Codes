@@ -187,7 +187,7 @@ args = (1200-1)*log(xiStarMax)-abs(xiStarMax).^p/p - (1200/p-1)*log(p)-gammaln(1
 ylim([0 exp(args)+5])
 yticks([]);
 xlabel('$\xi$','Interpreter','latex')
-ylabel({'Histogram of';'combined samples'},'interpreter','latex');
+ylabel({'Histogram of';'chain samples'},'interpreter','latex');
 
 nexttile(7)
 hold on
@@ -230,6 +230,9 @@ semilogy(plotStepSize:plotStepSize:N,LFWMeanErr4,'color',colorLF,'linewidth',3,'
 semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr4,'color',colorCHMC,'linewidth',3);
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr4,'color',colorCHMC,'linewidth',3,'LineStyle','--');
 set(gca, 'YScale', 'log')
+xlabel('MCMC Iterations','interpreter','latex')
+ylabel({'Error in various metrics';'(KS Distance, $W_1$ Distance)'},'Interpreter','latex')
+yticklabels({''})
 hold off
 xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
@@ -317,6 +320,7 @@ semilogy(plotStepSize:plotStepSize:N,LFWMeanErr8,'color',colorLF,'linewidth',3,'
 semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr8,'color',colorCHMC,'linewidth',3);
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr8,'color',colorCHMC,'linewidth',3,'LineStyle','--');
 set(gca, 'YScale', 'log')
+xlabel('MCMC Iterations','interpreter','latex')
 hold off
 xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
@@ -410,7 +414,8 @@ semilogy(plotStepSize:plotStepSize:N,LFKSMeanErr12,'color',colorLF,'linewidth',3
 semilogy(plotStepSize:plotStepSize:N,LFWMeanErr12,'color',colorLF,'linewidth',3,'LineStyle','--');
 semilogy(plotStepSize:plotStepSize:N,J0KSMeanErr12,'color',colorCHMC,'linewidth',3);
 semilogy(plotStepSize:plotStepSize:N,J0WMeanErr12,'color',colorCHMC,'linewidth',3,'LineStyle','--');
-set(gca, 'YScale', 'log')
+set(gca, 'YScale', 'log','YAxisLocation','right')
+xlabel('MCMC Iterations','interpreter','latex')
 hold off
 xlim([250 10000])
 ylim([10^(-3.2) 10^(0.37)])
@@ -425,11 +430,11 @@ labelCHMCKS = plot(ax,NaN,'DisplayName','CHMC (KS Distance)','color',colorCHMC,'
 labelCHMCW1 = plot(ax,NaN,'DisplayName','CHMC ($W_1$ Distance)','color',colorCHMC,'linewidth',2.5,'LineStyle','--');
 hold(ax,'off');
 leg = legend([labelLFKS, labelLFW1, labelCHMCKS, labelCHMCW1],'Interpreter','latex','Orientation','horizontal','Location','south');
-leg.Layout.Tile = 'south'; 
+leg.Layout.Tile = 'south';
 
 set(findall(gcf,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex');
 set(findall(gcf,'-property','FontSize'),'FontSize',14)
 
-compactHistogramViolinPlotStr = strcat('compactHistogramViolinConvergencePlot-p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
+compactChiComparisonStr = strcat('compactChiComparison-p',num2str(p),datestr(now,'_dd-mm-yy_HH-MM-SS'));
 fig.Position = [0,0,1175,825];
-print('-dpng','-r400',compactHistogramViolinPlotStr)
+print('-dpng','-r400',compactChiComparisonStr)
