@@ -11,12 +11,8 @@ plotStepSize = floor(N/numPlotPoints); % Number of points on convergence plot
 T=4;
 p=4;
 dt=0.15;
-%dimArray=[640, 640, 640, 640, 640, 640];
-%dimArray=[640, 1280, 2560, 5120, 10240, 20480];
-%dimArray=[40960];
 dimArray=[1280, 2560, 5120, 10240, 20480, 40960];
 %dimArray=[10, 20, 40, 80, 160, 640]; % Smaller dimensions for testing
-%dimArray=[1280,5120,20480]; % Smaller dimensions for testing
 sizeOfdimArray = length(dimArray);
 
 % Sampling PGauss using HMC/CHMC and compute error metrics
