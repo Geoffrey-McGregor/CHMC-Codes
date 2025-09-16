@@ -25,17 +25,8 @@ U=@(x)-(d-1)*log(abs(x))+abs(x)^p/p;
 DU=@(x)-(d-1)*(1/abs(x))+p*abs(x)^(p-1)/p;
 H=@(x,y)U(x)+y^2/2;
 
- DDU=@(Q,q) (U(Q)-U(q))/(Q-q);
- dDDU=@(Q,q) (DU(Q)*(Q-q)-U(Q)+U(q))/(Q-q)^2;
-
-% DDU=@(Q,q,p,dt) Q-q-dt*p+0.5*dt^2*((1-d)*log(Q/q)+0.16666666666*(Q*Q*Q*Q*Q*Q-q*q*q*q*q*q))/(Q-q)
-% dDDU=@(Q,q,p,dt) 1+0.5*dt^2*((1-d)*(Q-q)/Q+Q*Q*Q*Q*Q-DDU(Q,q,p,dt))/(Q-q)^2
-
-% DDU=@(Q,q) ((1-d)*log(Q/q)+0.25*(Q*Q*Q*Q-q*q*q*q))/(Q-q);
-% dDDU=@(Q,q) ((1-d)*(Q-q)/Q+Q*Q*Q-DDU(Q,q))/(Q-q)^2;
-
-% DDU=@(Q,q) ((1-d)*log(Q/q)+0.16666666666*(Q*Q*Q*Q*Q*Q-q*q*q*q*q*q))/(Q-q);
-% dDDU=@(Q,q) ((1-d)*(Q-q)/Q+Q*Q*Q*Q*Q-DDU(Q,q))/(Q-q)^2;
+DDU=@(Q,q) (U(Q)-U(q))/(Q-q);
+dDDU=@(Q,q) (DU(Q)*(Q-q)-U(Q)+U(q))/(Q-q)^2;
 
 TPolyVec = [-1/8,1/7,-1/6,1/5,-1/4,1/3,-1/2,1];
 DTPolyVec = [-7/8,6/7,-5/6,4/5,-3/4,2/3,-1/2];
@@ -132,12 +123,6 @@ for Ch=1:Chains
                 G=deltaQ-dt*pJ+0.5*dt^2*deltaU/deltaQ;
                 Gp=1+0.5*dt^2*(DU(QJ)*deltaQ-deltaU)/deltaQ^2;
 
-                % G=QF-qF-dt*pF+0.5*dt^2*DDU(QJ,qJ);
-                % Gp=1+0.5*dt^2*dDDU(QJ,qJ);
-
-                % G=QJ-qJ-dt*pJ+0.5*dt^2*((1-d)*polyval(TPolyVec,QJ/qJ-1)/qJ+polyval(qVec,QJ)/6);
-                % Gp=1+0.5*dt^2*((1-d)*polyval(DTPolyVec,QJ/qJ-1)/qJ^2+polyval(dqVec,QJ)/6);
-
                 QJ=QJ-G/Gp;
             end
             PJ=2/dt*(QJ-qJ)-pJ;
@@ -176,15 +161,6 @@ for Ch=1:Chains
                 G=deltaQ-dt*pF+0.5*dt^2*deltaU/deltaQ;
                 Gp=1+0.5*dt^2*(DU(QF)*deltaQ-deltaU)/deltaQ^2;
 
-                % G=QF-qF-dt*pF+dt^2/2*(U(QF)-U(qF))/(QF-qF);
-                % Gp=1+dt^2/(2)*(DU(QF)*(QF-qF)-(U(QF)-U(qF)))/(QF-qF)^2;
-
-                % G=QF-qF-dt*pF+0.5*dt^2*DDU(QJ,qJ);
-                % Gp=1+0.5*dt^2*dDDU(QJ,qJ);
-                
-                % G=QJ-qJ-dt*pJ+0.5*dt^2*((1-d)*polyval(TPolyVec,QJ/qJ-1)/qJ+polyval(qVec,QJ)/6);
-                % Gp=1+0.5*dt^2*((1-d)*polyval(DTPolyVec,QJ/qJ-1)/qJ^2+polyval(dqVec,QJ)/6);
-
                 QF=QF-G/Gp;
             end
             PF=2/dt*(QF-qF)-pF;
@@ -197,7 +173,6 @@ for Ch=1:Chains
 
         r=min(1,DetJ*exp(H(qF,pF)-H(QF,PF)));
 
-
         %Acceptance/Rejection
         if rand(1)>r
             qFJ(i)=qF;
@@ -209,8 +184,6 @@ for Ch=1:Chains
         end
         CT=toc;
         qFJChTime(Ch,i)=CT+qFJChTime(Ch,i-1);
-
-
 
     end
 

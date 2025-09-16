@@ -14,8 +14,6 @@ totalStepNum=length(plotStepSize:plotStepSize:N);
 
 %% Sample p-Chi Distribution using HMC and CHMC for d=400
 d=400;
-% a=d/p+1-1/p;
-% b=p^(1/p-1)*gamma(d/p)/gamma(d/p+1-1/p);
 [qJ0Ch4,qLFCh4,qFJCh4,qJ0Ch4Time,qLFCh4Time,qFJCh4Time]=ChiSampler(d,p,N,Chains,T,dt);
 qJ04=reshape(qJ0Ch4,[],1);
 qLF4=reshape(qLFCh4,[],1);
