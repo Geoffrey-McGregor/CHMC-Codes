@@ -1,4 +1,4 @@
-function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PGaussSampler(dimArray,p,N,T,dt,Chains,numPoints)
+function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF,covMaxErrFJ,KSMaxErrFJ,W1MaxErrFJ,timeLF,timeCHMCJ0,timeFJ]=PGaussSampler(dimArray,p,N,T,dt,Chains,numPoints)
     format compact
     format long
     
@@ -8,10 +8,18 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
     %Error variable initialization
     covMaxErrJ0 = zeros(sizeOfdimArray,numPoints,Chains);
     covMaxErrLF = zeros(sizeOfdimArray,numPoints,Chains);
+    covMaxErrFJ = zeros(sizeOfdimArray,numPoints,Chains);
+
+
     KSMaxErrJ0 = zeros(sizeOfdimArray,numPoints,Chains);
     KSMaxErrLF = zeros(sizeOfdimArray,numPoints,Chains);
+    KSMaxErrFJ = zeros(sizeOfdimArray,numPoints,Chains);
+
+
     W1MaxErrJ0 = zeros(sizeOfdimArray,numPoints,Chains);
     W1MaxErrLF = zeros(sizeOfdimArray,numPoints,Chains);
+    W1MaxErrFJ = zeros(sizeOfdimArray,numPoints,Chains);
+
 
     % Selecting p parameter in p-Gaussian
     PGauss=p;
@@ -29,21 +37,29 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
         updatePercent = 10; % percent to print progress (set to zero for no updates)
    
         qJ0 = zeros(d,N,Chains);
-        pJ0 = zeros(d,N,Chains);
         qLF = zeros(d,N,Chains);
-        pLF = zeros(d,N,Chains);
+        qFJ = zeros(d,N,Chains);
+        pJ0 = zeros(d);
+        pLF = zeros(d);
+        pFJ = zeros(d);
     
-        timeLF = zeros(Chains,1);
-        timeCHMCJ0 = zeros(Chains,1);
+        timeLF = zeros(Chains,N);
+        timeCHMCJ0 = zeros(Chains,N);
+        timeFJ = zeros(Chains,N);
 
         minLF = zeros(N,Chains);
         deltaHLF = zeros(N,Chains);
         minJ0 = zeros(N,Chains);
         deltaHJ0 = zeros(N,Chains);
+        minFJ = zeros(N,Chains);
+        deltaHFJ = zeros(N,Chains);
+
 
         RejectJ0=zeros(N,Chains);
+        RejectFJ=zeros(N,Chains);
         RejectLF=zeros(N,Chains);
         IterJ0=zeros(N,Chains);
+        IterFJ=zeros(N,Chains);
 
         if updatePercent
                 fprintf('\n===========================================\n')
@@ -52,33 +68,38 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
         end
     
         for j=1:Chains
-            p=zeros(d,1);
-            pLF(:,1,j)=p;
-            pJ0(:,1,j)=p;
-    
             q=normrnd(0,1,[d,1]);
             qLF(:,1,j)=q;
             qJ0(:,1,j)=q;
+            qFJ(:,1,j)=q;
 
             if updatePercent
                 fprintf(strcat('Chain #', num2str(j), ' progress at:'))
             end
             for i=2:N
                 p=randn(d,1);
+
     
                 % HMC-LF
                 tic
-                [qLF(:,i,j),pLF(:,i,j),RejectLF(i-1,j),alpha,deltaH] = HMCSolver(qLF(:,i-1,j),p,dt,T,PGauss);
-                timeLF(j) = timeLF(j)+toc;
+                [qLF(:,i,j),pLF,RejectLF(i-1,j),alpha,deltaH] = HMCSolver(qLF(:,i-1,j),p,dt,T,PGauss);
+                timeLF(j,i) = timeLF(j,i-1)+toc;
                 minLF(i,j) = alpha;
                 deltaHLF(i,j) = deltaH;
     
                 % CHMC-J0
                 tic
-                [qJ0(:,i,j),pJ0(:,i,j),JacJ0,RejectJ0(i-1,j),IterJ0(i,j),alpha,deltaH] = CHMCSolverJ0(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI,PGauss);
-                timeCHMCJ0(j) = timeCHMCJ0(j)+toc;
+                [qJ0(:,i,j),pJ0,JacJ0,RejectJ0(i-1,j),IterJ0(i,j),alpha,deltaH] = CHMCSolverJ0(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI,PGauss);
+                timeCHMCJ0(j,i) = timeCHMCJ0(j,i-1)+toc;
                 minJ0(i,j) = alpha;
                 deltaHJ0(i,j) = deltaH;
+
+                % CHMC-FJ
+                tic
+                [qFJ(:,i,j),pFJ,JacFJ,RejectFJ(i-1,j),IterFJ(i,j),alpha,deltaH] = CHMCSolverFullJ(qJ0(:,i-1,j),p,dt,T,energyTol,maxFPI);
+                timeFJ(j,i) = timeFJ(j,i-1)+toc;
+                minFJ(i,j) = alpha;
+                deltaHFJ(i,j) = deltaH;
     
                 if mod(i,floor(N/100*updatePercent))==0 && updatePercent
                     fprintf(' %2.0f%%',i/N*100)
@@ -92,7 +113,7 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
             fprintf("\n")
         end
     
-        headingStr = {'Leapfrog','CHMC J0'};
+        headingStr = {'Leapfrog','CHMC J0','CHMC FullJ'};
         columnStr = {'Sample Accept %', 'Acceptance Prob. %', 'Mean Energy Error', 'Mean # of FPIs', 'Total time (s)'};
     
         filename = strcat('comparison-info',datestr(now,'_dd-mm-yy_HH-MM-SS'),'.txt');
@@ -103,19 +124,19 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
             fprintf(strcat('Chain #', num2str(j), ':\n'))
             fprintf(fid, strcat('Chain #', num2str(j), ':\n'));
     
-            sampleAccept = 100*[ 1-sum(RejectLF(:,j))./length(RejectLF(:,j)),1-sum(RejectJ0(:,j))./length(RejectJ0(:,j))];
-            acceptProb = 100*[ mean(minLF(2:N,j)),  mean(minJ0(2:N,j))];
-            energyError = [ mean(abs(deltaHLF(2:N,j))), mean(abs(deltaHJ0(2:N,j)))];
-            meanFPIs = [ 1,  mean(IterJ0(2:N,j))];
-            timeArray = [ mean(timeLF(j)),  mean(timeCHMCJ0(j))];
+            sampleAccept = 100*[ 1-sum(RejectLF(:,j))./length(RejectLF(:,j)),1-sum(RejectJ0(:,j))./length(RejectJ0(:,j)),1-sum(RejectFJ(:,j))./length(RejectFJ(:,j))];
+            acceptProb = 100*[ mean(minLF(2:N,j)),  mean(minJ0(2:N,j)), mean(minFJ(2:N,j))];
+            energyError = [ mean(abs(deltaHLF(2:N,j))), mean(abs(deltaHJ0(2:N,j))), mean(abs(deltaHFJ(2:N,j)))];
+            meanFPIs = [ 1,  mean(IterJ0(2:N,j)), mean(IterFJ(2:N,j))];
+            timeArray = [ mean(timeLF(j,N)),  mean(timeCHMCJ0(j,N)), mean(timeFJ(j,N))];
     
             % Printing Heading
             fprintf(' %20s ', ' ')
             fprintf(fid,' %20s ', ' ');
             fprintf(' ')
             fprintf(fid,' ');
-            fprintf(' %20s |', headingStr{1}, headingStr{2})
-            fprintf(fid,' %20s |', headingStr{1}, headingStr{2});
+            fprintf(' %20s |', headingStr{1}, headingStr{2}, headingStr{3})
+            fprintf(fid,' %20s |', headingStr{1}, headingStr{2}, headingStr{3});
             fprintf('\n')
             fprintf(fid,'\n');
     
@@ -126,40 +147,40 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
             fprintf(fid,' %20s ', columnStr{1});
             fprintf('|')
             fprintf(fid,'|');
-            fprintf(' %20.3f |', sampleAccept(1), sampleAccept(2))
-            fprintf(fid,' %20.3f |', sampleAccept(1), sampleAccept(2));
+            fprintf(' %20.3f |', sampleAccept(1), sampleAccept(2), sampleAccept(3))
+            fprintf(fid,' %20.3f |', sampleAccept(1), sampleAccept(2), sampleAccept(3));
             fprintf('\n')
             fprintf(fid,'\n');
             fprintf(' %20s ', columnStr{2})
             fprintf(fid,' %20s ', columnStr{2});
             fprintf('|')
             fprintf(fid,'|');
-            fprintf(' %20.3f |', acceptProb(1), acceptProb(2))
-            fprintf(fid,' %20.3f |', acceptProb(1), acceptProb(2));
+            fprintf(' %20.3f |', acceptProb(1), acceptProb(2), acceptProb(3))
+            fprintf(fid,' %20.3f |', acceptProb(1), acceptProb(2), acceptProb(3));
             fprintf('\n')
             fprintf(fid,'\n');
             fprintf(' %20s ', columnStr{3})
             fprintf(fid,' %20s ', columnStr{3});
             fprintf('|')
             fprintf(fid,'|');
-            fprintf(' %20.3d |', energyError(1), energyError(2))
-            fprintf(fid,' %20.3d |', energyError(1), energyError(2));
+            fprintf(' %20.3d |', energyError(1), energyError(2), energyError(3))
+            fprintf(fid,' %20.3d |', energyError(1), energyError(2), energyError(3));
             fprintf('\n')
             fprintf(fid,'\n');
             fprintf(' %20s ', columnStr{4})
             fprintf(fid,' %20s ', columnStr{4});
             fprintf('|')
             fprintf(fid,'|');
-            fprintf(' %20.3f |', meanFPIs(1), meanFPIs(2))
-            fprintf(fid,' %20.3f |', meanFPIs(1), meanFPIs(2));
+            fprintf(' %20.3f |', meanFPIs(1), meanFPIs(2), meanFPIs(3))
+            fprintf(fid,' %20.3f |', meanFPIs(1), meanFPIs(2), meanFPIs(3));
             fprintf('\n')
             fprintf(fid,'\n');
             fprintf(' %20s ', columnStr{5})
             fprintf(fid,' %20s ', columnStr{5});
             fprintf('|')
             fprintf(fid,'|');
-            fprintf(' %20.3f |', timeArray(1), timeArray(2))
-            fprintf(fid,' %20.3f |', timeArray(1), timeArray(2));
+            fprintf(' %20.3f |', timeArray(1), timeArray(2), timeArray(3))
+            fprintf(fid,' %20.3f |', timeArray(1), timeArray(2), timeArray(3));
             fprintf('\n')
             fprintf(fid,'\n');
             fprintf('------------------------------------------------------------------------------------------------------------------------------------------\n')
@@ -169,19 +190,19 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
         % Printing Chain number
         fprintf(strcat('Mean values over all chains:\n'))
         fprintf(fid, strcat('Mean values over all chains:\n'));
-        sampleAccept = 100*[ 1-sum(sum(RejectLF))./length(RejectLF)/Chains,1-sum(sum(RejectJ0))./length(RejectJ0)/Chains];
-        acceptProb = 100*[ mean(mean(minLF(2:N,:))),  mean(mean(minJ0(2:N,:)))];
-        energyError = [ mean(mean(abs(deltaHLF(2:N,:)))), mean(mean(abs(deltaHJ0(2:N,:))))];
-        meanFPIs = [ 1,  mean(mean(IterJ0(2:N,:)))];
-        timeArray = [ mean(mean(timeLF)),  mean(mean(timeCHMCJ0))];
+        sampleAccept = 100*[ 1-sum(sum(RejectLF))./length(RejectLF)/Chains,1-sum(sum(RejectJ0))./length(RejectJ0)/Chains, 1-sum(sum(RejectFJ))./length(RejectFJ)/Chains];
+        acceptProb = 100*[ mean(mean(minLF(2:N,:))),  mean(mean(minJ0(2:N,:))), mean(mean(minFJ(2:N,:)))];
+        energyError = [ mean(mean(abs(deltaHLF(2:N,:)))), mean(mean(abs(deltaHJ0(2:N,:)))), mean(mean(abs(deltaHFJ(2:N,:))))];
+        meanFPIs = [ 1,  mean(mean(IterJ0(2:N,:))), mean(mean(IterFJ(2:N,:)))];
+        timeArray = [ mean(mean(timeLF(:,N))),  mean(mean(timeCHMCJ0(:,N))), mean(mean(timeFJ(:,N)))];
     
         % Printing Heading
         fprintf(' %20s ', ' ')
         fprintf(fid,' %20s ', ' ');
         fprintf(' ')
         fprintf(fid,' ');
-        fprintf(' %20s |', headingStr{1}, headingStr{2})
-        fprintf(fid,' %20s |', headingStr{1}, headingStr{2});
+        fprintf(' %20s |', headingStr{1}, headingStr{2}, headingStr{3})
+        fprintf(fid,' %20s |', headingStr{1}, headingStr{2}, headingStr{3});
         fprintf('\n')
         fprintf(fid,'\n');
     
@@ -192,40 +213,40 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
         fprintf(fid,' %20s ', columnStr{1});
         fprintf('|')
         fprintf(fid,'|');
-        fprintf(' %20.3f |', sampleAccept(1), sampleAccept(2))
-        fprintf(fid,' %20.3f |', sampleAccept(1), sampleAccept(2));
+        fprintf(' %20.3f |', sampleAccept(1), sampleAccept(2), sampleAccept(3))
+        fprintf(fid,' %20.3f |', sampleAccept(1), sampleAccept(2), sampleAccept(3));
         fprintf('\n')
         fprintf(fid,'\n');
         fprintf(' %20s ', columnStr{2})
         fprintf(fid,' %20s ', columnStr{2});
         fprintf('|')
         fprintf(fid,'|');
-        fprintf(' %20.3f |', acceptProb(1), acceptProb(2))
-        fprintf(fid,' %20.3f |', acceptProb(1), acceptProb(2));
+        fprintf(' %20.3f |', acceptProb(1), acceptProb(2), acceptProb(3))
+        fprintf(fid,' %20.3f |', acceptProb(1), acceptProb(2), acceptProb(3));
         fprintf('\n')
         fprintf(fid,'\n');
         fprintf(' %20s ', columnStr{3})
         fprintf(fid,' %20s ', columnStr{3});
         fprintf('|')
         fprintf(fid,'|');
-        fprintf(' %20.3d |', energyError(1), energyError(2))
-        fprintf(fid,' %20.3d |', energyError(1), energyError(2));
+        fprintf(' %20.3d |', energyError(1), energyError(2), energyError(3))
+        fprintf(fid,' %20.3d |', energyError(1), energyError(2), energyError(3));
         fprintf('\n')
         fprintf(fid,'\n');
         fprintf(' %20s ', columnStr{4})
         fprintf(fid,' %20s ', columnStr{4});
         fprintf('|')
         fprintf(fid,'|');
-        fprintf(' %20.3f |', meanFPIs(1), meanFPIs(2))
-        fprintf(fid,' %20.3f |', meanFPIs(1), meanFPIs(2));
+        fprintf(' %20.3f |', meanFPIs(1), meanFPIs(2), meanFPIs(3))
+        fprintf(fid,' %20.3f |', meanFPIs(1), meanFPIs(2), meanFPIs(3));
         fprintf('\n')
         fprintf(fid,'\n');
         fprintf(' %20s ', columnStr{5})
         fprintf(fid,' %20s ', columnStr{5});
         fprintf('|')
         fprintf(fid,'|');
-        fprintf(' %20.3f |', timeArray(1), timeArray(2))
-        fprintf(fid,' %20.3f |', timeArray(1), timeArray(2));
+        fprintf(' %20.3f |', timeArray(1), timeArray(2), timeArray(3))
+        fprintf(fid,' %20.3f |', timeArray(1), timeArray(2), timeArray(3));
         fprintf('\n')
         fprintf(fid,'\n');
         fprintf('------------------------------------------------------------------------------------------------------------------------------------------\n')
@@ -262,6 +283,11 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
                 if updatePercent
                     fprintf(' %2.1f%%',i/numPoints*100)
                 end
+                covError=abs(VarComp(qFJ(:,1:i*floor(N/numPoints),j))-covExact);
+                covMaxErrFJ(dimIdx,i,j)=max(covError);
+                % if updatePercent
+                %     fprintf(' %2.1f%%',i/numPoints*100)
+                % end
             end
             if(updatePercent)
                 fprintf('\n')
@@ -273,8 +299,12 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
         %Computing Wasserstein and Kolmogorov-Smirnov Errors for each chain
         KSVecErrJ0 = zeros(d,1);
         KSVecErrLF = zeros(d,1);
+        KSVecErrFJ = zeros(d,1);
+
         W1VecErrJ0 = zeros(d,1);
         W1VecErrLF = zeros(d,1);
+        W1VecErrFJ = zeros(d,1);
+
 
         if updatePercent
             fprintf(strcat('Computing Wasserstein and Kolmogorov-Smirnov Errors:\n'))
@@ -303,10 +333,21 @@ function[covMaxErrJ0,covMaxErrLF,KSMaxErrJ0,KSMaxErrLF,W1MaxErrJ0,W1MaxErrLF]=PG
                 if updatePercent
                     fprintf(' %2.1f%%',ct/numPoints*100)
                 end
+
+                for i=1:d
+                    [yFJcdf,xFJcdf]=ecdf(qFJ(i,1:j,C));
+                    lxFJ = length(xFJcdf);
+                    KSVecErrFJ(i)=max(abs(yFJcdf-PGenCDF(xFJcdf,PGauss)));
+                    W1VecErrFJ(i)=sum(abs(yFJcdf(2:lxFJ)-PGenCDF(xFJcdf(2:lxFJ),PGauss)).*(xFJcdf(2:lxFJ)-xFJcdf(1:lxFJ-1)));
+                end
+
                 KSMaxErrJ0(dimIdx,ct,C)=max(KSVecErrJ0);
                 KSMaxErrLF(dimIdx,ct,C)=max(KSVecErrLF);
+                KSMaxErrFJ(dimIdx,ct,C)=max(KSVecErrFJ);
+
                 W1MaxErrJ0(dimIdx,ct,C)=max(W1VecErrJ0);
                 W1MaxErrLF(dimIdx,ct,C)=max(W1VecErrLF);
+                W1MaxErrFJ(dimIdx,ct,C)=max(W1VecErrFJ);
             end
             if(updatePercent)
                 fprintf('\n')
