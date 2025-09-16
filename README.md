@@ -13,7 +13,7 @@ You will find two directories containing the codes used to run the examples foun
 # Compact Chi 
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1. `CompactChiComparison.m produces Figure 1.`
+1. `CompactChiComparisonTime.m produces Figure 1.`
 
 2. `CompactHeatmap.m produces the two panels of Figure 2.`
 
@@ -37,7 +37,7 @@ You will find two directories containing the codes used to run the examples foun
 # Compact PGauss:
 **Executible files to reproduce figures** _(No modification to the code or parameters is required)_
 
-1.`CompactPGaussComparison.m produces Figure 3.`
+1.`CompactPGaussComparisonTime.m produces Figure 3.`
 
 **Additional .m files**
 
@@ -47,10 +47,11 @@ You will find two directories containing the codes used to run the examples foun
   - **N** is the number of samples and **Chains** is the number of chains,**T** **dt** are the integration time and step size respectively.
   - **numPoints** specifies the number of iterations between each metric computation.
 2. `AGSam.m is an exact sampler built for sampling one-dimensional slices of the p-generalized Gaussian distribution. We use this to compute the CHMC and HMC sampling errors.`
-3. `CHMCSolver.m obtains samples using the conservative integrator.`
-4. `HMCSolver.m obtains samples using the Leapfrog integrator.`
-5. `PGenCDF.m evalutes the CDF of a one-dimensional slice of the p-generalized Gaussian Distribution. We use this for computing CHMC and HMC errors.`
-6. `VarComp.m is used for compute errors in the covariance for CHMC and HMC samplers.`
+3. `CHMCSolverJ0.m obtains samples using the conservative integrator with approximate Jacobian determinant of 1.`
+4. `CHMCSolverFullJ.m obtains samples using the conservative integrator using full determinant.`
+5. `HMCSolver.m obtains samples using the Leapfrog integrator.`
+6. `PGenCDF.m evalutes the CDF of a one-dimensional slice of the p-generalized Gaussian Distribution. We use this for computing CHMC and HMC errors.`
+7. `VarComp.m is used for compute errors in the covariance for CHMC and HMC samplers.`
 
 
 # Compact PNorm
@@ -73,3 +74,4 @@ You will find two directories containing the codes used to run the examples foun
 Executing these files requires MATLAB version R2023b or later and the [Statistics and Machine Learning Toolbox](https://www.mathworks.com/products/statistics.html)
 
 This repository contains the codes ws_distance.m from https://github.com/nklb/wasserstein-distance for computing the Wasserstein distance between discrete distributions and Violin.m and Violinplot.m from https://github.com/bastibe/Violinplot-Matlab for producing violin plots.
+
